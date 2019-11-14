@@ -5,12 +5,6 @@
             "name": "CodeLens (Launch) - Client",
             "request": "launch",
             "mainClass": "Client"
-        },
-        {
-            "type": "java",
-            "name": "CodeLens (Launch) - Server",
-            "request": "launch",
-            "mainClass": "Server"
         }
     ]
 }
