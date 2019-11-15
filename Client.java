@@ -5,25 +5,26 @@ public class Client{
 
     Socket sock;
     BufferedReader dataIn;
-    DataOutputStream dataOut;
+    PrintWriter dataOut;
 
     Client(int port, String ipAddress){
         try {
             sock = new Socket (ipAddress, port);
             System.out.println("Connected");
-            dataIn = new BufferedReader(new InputStreamReader(System.in));
-            dataOut = new DataOutputStream(sock.getOutputStream());
-            String line ="";
+            dataIn = new BufferedReader(new InputStreamReader(sock.getInputStream()));
+            dataOut = new PrintWriter(sock.getOutputStream(), true);
+            String userIn ="";
+            BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
             System.out.println("Here");
-            while(!line.equals("Over"));{
+            while((userIn = input.readLine()) != null);{
                 try {
-                    line = dataIn.readLine();
-                    dataOut.writeUTF(line);
+                    dataOut.println((userIn));
+                    System.out.println("echo: " + dataIn.readLine());
 
                 } catch (Exception e) {
                     //TODO: handle exception
                 }
-                line = "Over";
+                userIn = "Over";
         }
             
         } catch (Exception e) {
@@ -41,9 +42,9 @@ public class Client{
     }
 
 
-    public static void main(String [] args){
+    // public static void main(String [] args){
 
-        Client cli = new Client(4000, "127.0.0.1");
+    //     Client cli = new Client(4000, "127.0.0.1");
 
-    }
+    // }
 }
