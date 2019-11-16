@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Serialized>
+  <Object Class="ObjectB" id="2">
+    <Field Name="a" DeclearingClass="ObjectB">
+      <Value>0</Value>
+    </Field>
+    <Field Name="b" DeclearingClass="ObjectB">
+      <Value>0.1</Value>
+    </Field>
+    <Field Name="c" DeclearingClass="ObjectB">
+      <Value>0.0</Value>
+    </Field>
+  </Object>
+</Serialized>

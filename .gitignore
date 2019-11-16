@@ -7,3 +7,8 @@
 /Sender.class
 /Server.class
 /Serializer.class
+/Deserializer.class
+/xmlOut.class
+/sendPackage.class
+/XMLOut.class
+/SendPackage.class

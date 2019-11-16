@@ -12,20 +12,21 @@ public class Client{
             sock = new Socket (ipAddress, port);
             System.out.println("Connected");
             dataIn = new BufferedReader(new InputStreamReader(sock.getInputStream()));
+            BufferedReader stdIn = new BufferedReader(new FileReader("Output.xml"));
             dataOut = new PrintWriter(sock.getOutputStream(), true);
-            String userIn ="";
-            BufferedReader input = new BufferedReader(new InputStreamReader(System.in));
-            System.out.println("Here");
-            while((userIn = input.readLine()) != null);{
-                try {
-                    dataOut.println((userIn));
-                    System.out.println("echo: " + dataIn.readLine());
+            String userIn;
+            OutputStream outStream = sock.getOutputStream();
+            dataIn = new BufferedReader(new InputStreamReader (sock.getInputStream()));
+            File fi = new File ("Output.xml");
+            InputStream fileIn = new FileInputStream(fi);
+            int count;
+            byte [] buffer = new byte [8196];
+            
+            while((count = fileIn.read(buffer)) > 0) {
+            	outStream.write(buffer, 0, count);
+            }
+            
 
-                } catch (Exception e) {
-                    //TODO: handle exception
-                }
-                userIn = "Over";
-        }
             
         } catch (Exception e) {
             e.printStackTrace();
@@ -40,11 +41,24 @@ public class Client{
         }
 
     }
+    
+    public void checkResponce() {
+    	try {
+    		BufferedReader serverResponse = new BufferedReader(new InputStreamReader(sock.getInputStream()));
+    		String response;
+    		while((response = serverResponse.readLine()) != null) {
+    			System.out.println("Response: " + response);
+    		}
+    	}
+    	catch(IOException e) {
+    		e.printStackTrace();
+    	}
+    }
 
 
-    // public static void main(String [] args){
+    public static void main(String [] args){
 
-    //     Client cli = new Client(4000, "127.0.0.1");
+    Client cli = new Client(4000, "127.0.0.1");
 
-    // }
+    }
 }

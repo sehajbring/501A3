@@ -7,6 +7,8 @@ import org.jdom2.*;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.io.FileOutputStream;
 
 public class Sender {
@@ -16,10 +18,13 @@ public class Sender {
      */
     // private static final long serialVersionUID = 1L;
     ObjectOutputStream objectOut;
-
+    Map<Object, Integer> objectMap = new HashMap<>();
+ 
     public void creatObject(){
-        ObjectA oba = new ObjectA();
-        serializeObject(oba);
+        Serializer serial = new Serializer();
+        
+        serial.serialize(new ObjectB());
+        serial.serialize(new ObjectA());
     }
 
     public void serializeObject(Object obj){
