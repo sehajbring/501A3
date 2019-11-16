@@ -33,7 +33,7 @@ public class Server{
             byte [] buffer = new byte [8196];
             
             while((count = fileIn.read(buffer)) > 0) {
-            	outStream.write(buffer, 0, count);
+//            	outStream.write(buffer, 0, count);
             }
             
             String input;

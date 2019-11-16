@@ -58,9 +58,6 @@ public class Deserializer {
 		
 	}
 	
-	public static void main (String [] args) {
-		Deserializer ds = new Deserializer();
-		ds.deserialize();
-	}
+
 	
 }

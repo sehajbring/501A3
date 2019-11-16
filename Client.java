@@ -3,9 +3,9 @@ import java.io.*;
 
 public class Client{
 
-    Socket sock;
-    BufferedReader dataIn;
-    PrintWriter dataOut;
+    private Socket sock;
+    private BufferedReader dataIn;
+    private PrintWriter dataOut;
 
     Client(int port, String ipAddress){
         try {
@@ -56,9 +56,5 @@ public class Client{
     }
 
 
-    public static void main(String [] args){
 
-    Client cli = new Client(4000, "127.0.0.1");
-
-    }
 }
