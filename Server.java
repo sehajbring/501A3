@@ -5,6 +5,10 @@ import java.net.Socket;
 import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.jdom2.Document;
+import org.jdom2.JDOMException;
+import org.jdom2.input.SAXBuilder;
+import org.jdom2.output.Format;
+import org.jdom2.output.XMLOutputter;
 
 import jdk.internal.org.xml.sax.InputSource;
 
@@ -14,7 +18,7 @@ public class Server{
 
     Socket clientSocket;
     ServerSocket serverSock;
-    BufferedReader dataIn;
+    DataInputStream dataIn;
     Document xmlDoc;
 
     Server (int port){
@@ -25,35 +29,42 @@ public class Server{
             clientSocket = serverSock.accept();
             System.out.println("New client");
           
-            dataIn = new BufferedReader(new InputStreamReader (clientSocket.getInputStream()));
-            File fi = new File ("Output.xml");
-            InputStream fileIn = new FileInputStream(fi);
-            long length = fi.length();
-            int count;
-            byte [] buffer = new byte [8196];
+            dataIn = new DataInputStream (clientSocket.getInputStream());
+            SAXBuilder doc = new SAXBuilder();
+            System.out.println("got something");
+            Document netDoc = doc.build(dataIn);
             
-            while((count = fileIn.read(buffer)) > 0) {
-//            	outStream.write(buffer, 0, count);
-            }
+            XMLOutputter serial = new XMLOutputter(Format.getPrettyFormat());
+			serial.output(netDoc, System.out);
+			serial.output(netDoc, new FileOutputStream("OutputBetter.xml"));
+
+//            
+//            while((count = fileIn.read(buffer)) > 0) {
+////            	outStream.write(buffer, 0, count);
+//            }
             
-            String input;
-//            pw.println("recived");
-            while((input = dataIn.readLine()) != null) {
-            	System.out.println(input);
-            }
+//            String input;
+////            pw.println("recived");
+//            while((input = dataIn.readLine()) != null) {
+//            	System.out.println(input);
+//            }
 
             System.out.println("Closing connection");
             clientSocket.close();
             dataIn.close();
+            Deserializer d1 = new Deserializer();
 
         }
-        catch(IOException e){
+        catch(IOException e ){
             e.printStackTrace();
+        }
+        catch (JDOMException e) {
+        	
         }
     }
 
     public static void main (String [] args){
-        Server ser = new Server(4000);
+        Server ser = new Server(4321);
 
     }
 }

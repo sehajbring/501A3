@@ -1,3 +1,4 @@
 public class ObjectD{
-    ObjectA d = new ObjectA();
+    ObjectA[] a = new ObjectA[2];
+
 }

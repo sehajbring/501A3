@@ -8,24 +8,19 @@ public class Deserializer {
 	List<Element> objectList;
 	List <Element> fieldList;
 //	org.jdom2.Document document
-	public Object deserialize() {
-		SAXBuilder saxBuild = new SAXBuilder();
-		File inFile = new File ("Output");
-		Document doc = null;
-		try {
-			doc = saxBuild.build(inFile);
-		} catch (JDOMException | IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+
+
+	public Object deserialize(Document doc) {
+
 		Element docRoot= doc.getRootElement();
 		objectList = docRoot.getChildren();
-//		fieldList = new ArrayList <>();
+	//		fieldList = new ArrayList <>();
 		Object returnObj = null;
 		for(Element objects: objectList) {
 			Attribute attr = objects.getAttribute("Class");
 			
 			if (attr.getValue().equals("ObjectA")) {
+				objA(objects);
 			}
 			else if(attr.getValue().equals("ObjectB")) {
 				
@@ -41,9 +36,15 @@ public class Deserializer {
 		}
 		return null;
 	}
-	
 	public void objA (Element el) {
+		List<Element> li = el.getChildren();
 		ObjectA oA = new ObjectA();
+		oA.a = 9;
+		System.out.println(oA.a);
+		oA.a = Integer.parseInt(li.get(0).getValue());
+		System.out.println(oA.a);
+		
+		
 	}
 	
 	public void objB (Element el) {

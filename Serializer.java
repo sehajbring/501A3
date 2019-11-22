@@ -7,10 +7,12 @@ import java.io.IOException;
 import java.lang.reflect.*;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Scanner;
 public class Serializer {
     Map<String, Integer> objectMap = new HashMap<>();
 	int idNumber;
-	Client c1;
+//	Client c1;
+	String output;
     
     public void addToMap() {
     	idNumber = 0;
@@ -23,9 +25,9 @@ public class Serializer {
     	objectMap.put(objC.getClass().getName(), ++idNumber);
     	objectMap.put(objD.getClass().getName(), ++idNumber);
 
-    	Document doc = serialize(objA);
+    	Document doc = serialize(objB);
     	doc = serialize(objB);
-    	c1 = new Client (4000, "127.0.0.1");
+//    	c1 = new Client (4321, "192.168.56.1", output);
     }
     
 	public org.jdom2.Document serialize (Object obj){
@@ -45,9 +47,9 @@ public class Serializer {
 					childElement.addContent(new Element ("Value").setText(fi.get(obj).toString()));
 				}
 				
-				else if (fi.getType().isPrimitive() == true || !fi.getType().toString().equals("java.lang.String")|| (fi.getType().isArray()) == false ) {
+				else if (fi.getType().isPrimitive() == true || !fi.getType().toString().equals("java.lang.String")|| (fi.getType().equals("[I") )) {
 				
-					System.out.println("here");
+					
 				}
 				else {
 				}
@@ -58,24 +60,53 @@ public class Serializer {
 				e.printStackTrace();
 			}
 		}
-		document.getRootElement().addContent(parentElement);
 		XMLOutputter xmlOutputter = new XMLOutputter(Format.getPrettyFormat());
-	    //output xml to console for debugging
-	    try {
+		change();
+		document.getRootElement().addContent(parentElement);
+		
+		//output xml to console for debugging
+		try {
 			xmlOutputter.output(document, System.out);
 			xmlOutputter.output(document, new FileOutputStream("Output.xml"));
-
+			output = xmlOutputter.outputString(document);
+			Client c1 = new Client(4321, "192.168.56.1", output);
+			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		
+		Deserializer d1 = new Deserializer();
+		d1.deserialize(document);
+		
+		
+		
 	    
 		return document;
+	}
+	
+	public void change() {
+		Scanner sc = new Scanner(System.in);
+		System.out.print("Would you like to change anything before continuing (y/n): ");
+		String x = sc.nextLine();
+		x.toLowerCase();
+		if(x.equals("y")){
+			
+		}
+		else if (x.equals("n")) {
+			
+		}
+		else {
+			System.out.println("invalid input");
+			System.exit(0);
+		}
 	}
 	
 	public static void main (String [] args) {
 		Serializer s1 = new Serializer();
 		s1.addToMap();
+		
 	}
 	
 }

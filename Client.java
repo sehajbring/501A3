@@ -5,35 +5,36 @@ public class Client{
 
     private Socket sock;
     private BufferedReader dataIn;
-    private PrintWriter dataOut;
+    private DataOutputStream dataOut;
 
-    Client(int port, String ipAddress){
+    Client(int port, String ipAddress, String inFile){
         try {
             sock = new Socket (ipAddress, port);
             System.out.println("Connected");
             dataIn = new BufferedReader(new InputStreamReader(sock.getInputStream()));
-            BufferedReader stdIn = new BufferedReader(new FileReader("Output.xml"));
-            dataOut = new PrintWriter(sock.getOutputStream(), true);
-            String userIn;
-            OutputStream outStream = sock.getOutputStream();
-            dataIn = new BufferedReader(new InputStreamReader (sock.getInputStream()));
-            File fi = new File ("Output.xml");
-            InputStream fileIn = new FileInputStream(fi);
-            int count;
-            byte [] buffer = new byte [8196];
+            DataOutputStream dataOut = new DataOutputStream(sock.getOutputStream());
+            dataOut.writeBytes(inFile);
+            dataOut.flush();
+            dataOut.close();
+            // String userIn;
+            // OutputStream outStream = sock.getOutputStream();
+            // dataIn = new BufferedReader(new InputStreamReader (sock.getInputStream()));
+            // // InputStream fileIn = new FileInputStream(fi);
+            // int count;
+            // byte [] buffer = new byte [8196];
             
-            while((count = fileIn.read(buffer)) > 0) {
-            	outStream.write(buffer, 0, count);
-            }
+            // while((count = fileIn.read(buffer)) > 0) {
+            // 	outStream.write(buffer, 0, count);
+            // }
             
 
             
         } catch (Exception e) {
+            System.out.println("HERE:");
             e.printStackTrace();
         }
         try{
-            dataIn.close();
-            dataOut.close();
+            // dataIn.close();
             sock.close();
         }
         catch(IOException e){
@@ -54,6 +55,11 @@ public class Client{
     		e.printStackTrace();
     	}
     }
+
+
+    // public static void main(String [] args){
+    //     Client c1 = new Client(4321, "192.168.56.1", "Output.xml");
+    // }
 
 
 
